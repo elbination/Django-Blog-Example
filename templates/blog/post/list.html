@@ -1,4 +1,5 @@
 {% extends 'blog/layout.html' %}
+{% load blog_tags %}
 {% block title %}
     My Blog
 {% endblock %}
@@ -9,9 +10,10 @@
             <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
         </h2>
         <p class="date">
-            Published {{ post.publish }} by {{ post.author }} - {{ post.comments.count }}
+            Published {{ post.publish }} by {{ post.author }}. Comments: {{ post.comments.count }}
         </p>
-        {{ post.body|linebreaks|truncatewords:10 }}
+        {#        {{ post.body|linebreaks|truncatewords:10 }}#}
+        {{ post.body|markdown|linebreaks|truncatewords_html:30 }}
     {% endfor %}
     {% include 'blog/_components/pagination.html' with page=posts %}
 {% endblock %}
